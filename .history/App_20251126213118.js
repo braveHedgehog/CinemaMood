@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // useEffect eklendi
 import { SafeAreaView, StatusBar, View, ActivityIndicator, Text, Alert, StyleSheet, Platform, StatusBar as RNStatusBar } from 'react-native';
 
+// Importlarımız
 import { COLORS } from './src/constants/colors';
 import { TEXTS } from './src/constants/texts';
 import { fetchRandomMovieData, IMAGE_URL, PROFILE_URL } from './src/services/api';
+// YENİ: Storage servisini ekledik
 import { saveFavoritesToStorage, loadFavoritesFromStorage } from './src/services/storage';
 
 import HomeScreen from './src/screens/HomeScreen';
@@ -17,7 +19,8 @@ export default function App() {
   const [favorites, setFavorites] = useState([]);
 
   const T = TEXTS[lang];
-  
+
+  // --- YENİ EKLENEN KISIM: BAŞLANGIÇTA YÜKLEME ---
   useEffect(() => {
     const loadData = async () => {
       const savedFavorites = await loadFavoritesFromStorage();
@@ -25,18 +28,21 @@ export default function App() {
     };
     loadData();
   }, []);
-  
+
+  // --- GÜNCELLENEN MANTIK: HER DEĞİŞİKLİKTE KAYDETME ---
   const toggleFavorite = async (item) => {
     let updatedFavorites;
     
     if (favorites.some(fav => fav.id === item.id)) {
+      // Çıkar
       updatedFavorites = favorites.filter(fav => fav.id !== item.id);
     } else {
+      // Ekle
       updatedFavorites = [...favorites, item];
     }
 
-    setFavorites(updatedFavorites);
-    await saveFavoritesToStorage(updatedFavorites);
+    setFavorites(updatedFavorites); // Ekrana yansıt
+    await saveFavoritesToStorage(updatedFavorites); // Hafızaya yaz
   };
 
   const processMovieData = (rawData) => {
