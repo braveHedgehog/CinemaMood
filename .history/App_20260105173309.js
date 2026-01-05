@@ -11,6 +11,7 @@ import {
   StatusBar as RNStatusBar 
 } from 'react-native';
 
+// --- MODÜLLER ---
 import { COLORS } from './src/constants/colors';
 import { TEXTS } from './src/constants/texts';
 import { fetchSmartMovieData, IMAGE_URL, PROFILE_URL } from './src/services/api';
@@ -19,6 +20,7 @@ import {
     saveWatchlistToStorage, loadWatchlistFromStorage 
 } from './src/services/storage';
 
+// --- EKRANLAR ---
 import HomeScreen from './src/screens/HomeScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import WatchlistScreen from './src/screens/WatchlistScreen';
@@ -28,9 +30,9 @@ export default function App() {
   const [step, setStep] = useState(1);
   const [lastStep, setLastStep] = useState(1);
   
-  
+  // --- YENİ EKLENEN STATE: SEÇİLEN TÜRÜ HAFIZADA TUT ---
   const [selectedGenreId, setSelectedGenreId] = useState(null); 
-  
+  // -----------------------------------------------------
 
   const [lang, setLang] = useState('tr');
   const [loading, setLoading] = useState(false);
@@ -51,7 +53,7 @@ export default function App() {
     loadData();
   }, []);
 
-  
+  // --- LİSTE YÖNETİMİ ---
   const toggleFavorite = async (item) => {
     let updated;
     if (favorites.some(fav => fav.id === item.id)) {
@@ -96,7 +98,7 @@ export default function App() {
     await saveWatchlistToStorage(newList);
   };
 
-  
+  // --- AKILLI ÖNERİ ---
   const determineNextGenre = () => {
     if (favorites.length === 0) return null;
     const explorationChance = 0.3; 
@@ -113,7 +115,7 @@ export default function App() {
     return genrePool[Math.floor(Math.random() * genrePool.length)];
   };
 
-  
+  // --- API 1: ANA SAYFA / AKILLI ÖNERİ ---
   const handleFetch = async () => {
     setLoading(true);
     try {
@@ -123,6 +125,7 @@ export default function App() {
             const processed = processMovieData(data);
             setResult(processed);
             
+            // Rastgele modda olduğumuz için seçili türü sıfırla
             setSelectedGenreId(null); 
             
             setLastStep(1); 
@@ -135,13 +138,13 @@ export default function App() {
     }
   };
 
-  
+  // --- API 2: MODUNA GÖRE (TÜR SEÇİMLİ) ---
   const handleGenreFetch = async (genreId) => {
     setLoading(true);
     
-   
+    // --- DÜZELTME: Seçilen türü hafızaya kaydet ---
     setSelectedGenreId(genreId);
-    
+    // ---------------------------------------------
 
     try {
         const data = await fetchSmartMovieData(lang, genreId);
@@ -158,7 +161,7 @@ export default function App() {
     }
   };
 
-  
+  // --- VERİ İŞLEME ---
   const processMovieData = (rawData) => {
     const { movie, credits, providers } = rawData;
     let platformName = T.noPlatform;
@@ -243,17 +246,19 @@ export default function App() {
             result={result}
             onBack={() => setStep(lastStep)} 
             
-           
+            // --- DÜZELTİLEN MANTIK ---
             onAgain={() => {
-                
+                // Eğer moduna göre sayfasından geldiysek (LastStep 4)
+                // VE hafızada seçili bir tür varsa (selectedGenreId)
+                // O türü kullanmaya devam et.
                 if (lastStep === 4 && selectedGenreId) {
                     handleGenreFetch(selectedGenreId);
                 } else {
-                    
+                    // Yoksa rastgele/akıllı öneriye devam
                     handleFetch();
                 }
             }}
-           
+            // -------------------------
 
             isFavorite={favorites.some(f => f.id === result.id)}
             onToggleFavorite={() => toggleFavorite(result)}

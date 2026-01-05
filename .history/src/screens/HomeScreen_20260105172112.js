@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList, StyleSheet, Dimensions } from 'react-native';
 import { COLORS } from '../constants/colors';
-import appLogo from '../assets/Images/app_logo.png';
 
 const { width } = Dimensions.get('window');
 
@@ -19,7 +18,7 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
   return (
     <View style={styles.container}>
       
-      {}
+      {/* --- DİL SEÇİCİ (Her zaman sağ üstte sabit) --- */}
       <View style={styles.langWrapper}>
         <View style={styles.langRow}>
             <TouchableOpacity onPress={() => setLang('tr')} style={[styles.langBtn, lang === 'tr' && styles.langActive]}>
@@ -31,31 +30,31 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
         </View>
       </View>
 
-      {}
+      {/* --- İÇERİK ALANI --- */}
+      {/* Eğer boşsa 'centeredView', doluysa 'scrollingView' kullanıyoruz */}
       <View style={isEmpty ? styles.centeredView : styles.scrollingView}>
 
-          {}
+          {/* --- HEADER (LOGO & BAŞLIK) --- */}
           <View style={isEmpty ? styles.headerEmpty : styles.headerFilled}>
             {isEmpty ? (
-                
+                // BOŞ EKRAN TASARIMI (Büyük Logo)
                 <View style={styles.emptyStateHero}>
                     <View style={styles.logoCircle}>
-                        {}
-                        <Image source={appLogo} style={styles.logoImageBig} />
+                        <Text style={styles.logoBig}>🍿</Text>
                     </View>
                     <Text style={styles.titleBig}>{texts.header}</Text>
                     <Text style={styles.subTitle}>{texts.subHeader}</Text>
                 </View>
             ) : (
-                <View style={styles.headerFilledContent}>
-                    {}
-                    <Image source={appLogo} style={styles.logoImageSmall} />
+                // DOLU EKRAN TASARIMI (Küçük, Sola Yaslı Logo)
+                <View>
+                    <Text style={styles.logoSmall}>🍿</Text>
                     <Text style={styles.titleSmall}>{texts.header}</Text>
                 </View>
             )}
           </View>
 
-          {}
+          {/* --- AKSİYON BUTONLARI --- */}
           <View style={styles.actionRow}>
             <TouchableOpacity style={[styles.actionButton, { backgroundColor: COLORS.primary }]} onPress={onFetch}>
                 <Text style={styles.btnIcon}>🎲</Text>
@@ -68,11 +67,11 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
             </TouchableOpacity>
           </View>
 
-          {}
+          {/* --- LİSTELER (Sadece Doluysa Görünür) --- */}
           {!isEmpty && (
             <View style={styles.listContainer}>
               
-              {}
+              {/* İZLEME LİSTESİ */}
               {watchlist.length > 0 && (
                 <View style={styles.section}>
                   <View style={styles.sectionHeader}>
@@ -92,7 +91,7 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
                 </View>
               )}
 
-              {}
+              {/* FAVORİLER */}
               {favorites.length > 0 && (
                 <View style={styles.section}>
                   <Text style={[styles.sectionTitle, { marginLeft: 20, marginBottom: 10 }]}>{texts.favHeader}</Text>
@@ -116,19 +115,23 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
-  
+
+  // --- LAYOUTS ---
+  // Boşken tam ortala
   centeredView: { 
       flex: 1, 
       justifyContent: 'center', 
       paddingHorizontal: 20,
-      marginTop: -40
+      marginTop: -40 // Optik dengeleme (Dil seçiciden dolayı)
   },
+  // Doluyken yukarı yasla
   scrollingView: { 
       flex: 1, 
       justifyContent: 'flex-start',
       paddingTop: 80 
   },
-  
+
+  // --- DİL SEÇİCİ (SABİT) ---
   langWrapper: { 
       position: 'absolute', 
       top: 50, 
@@ -139,62 +142,46 @@ const styles = StyleSheet.create({
   langBtn: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: 8, backgroundColor: 'rgba(0,0,0,0.5)', borderWidth: 1, borderColor: '#444' },
   langActive: { borderColor: COLORS.primary, backgroundColor: '#333' },
   langText: { color: '#fff', fontSize: 12, fontWeight: 'bold' },
-  
+
+  // --- HEADER STILLERI ---
   headerEmpty: { alignItems: 'center', marginBottom: 40 },
   headerFilled: { paddingHorizontal: 20, marginBottom: 20, alignItems: 'flex-start' },
-  headerFilledContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
 
-  
+  // BOŞ EKRAN ÖZEL (HERO)
   emptyStateHero: { alignItems: 'center' },
   logoCircle: {
-      width: 180,
-      height: 180,
-      borderRadius: 100,
-      backgroundColor: '#1F1F1F',
+      width: 140,
+      height: 140,
+      borderRadius: 70,
+      backgroundColor: '#1F1F1F', // Koyu gri daire
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 20,
       borderWidth: 1,
       borderColor: '#333',
+      // Hafif Gölge
       shadowColor: "#000",
       shadowOffset: { width: 0, height: 10 },
       shadowOpacity: 0.5,
       shadowRadius: 10,
       elevation: 10,
   },
-  
-  logoImageBig: {
-    width: 500, 
-    height: 500,
-    marginTop:25,
-    resizeMode: 'contain' 
-  },
-  
-  logoImageSmall: {
-    width: 200,
-    height: 100,
-    resizeMode: 'contain',
-    marginRight: -70,
-    marginLeft:-80 
-  },
-
+  logoBig: { fontSize: 70 },
   titleBig: { fontSize: 32, fontWeight: '900', color: '#fff', textAlign: 'center', letterSpacing: 1, marginBottom: 8 },
   subTitle: { color: '#888', textAlign: 'center', fontSize: 16, maxWidth: '80%' },
-  
-  titleSmall: { fontSize: 24, fontWeight: 'bold', color: '#fff', letterSpacing: 0.5, marginBottom:10 },
 
-  
+  // DOLU EKRAN ÖZEL
+  logoSmall: { fontSize: 30, marginBottom: 5 },
+  titleSmall: { fontSize: 24, fontWeight: 'bold', color: '#fff', letterSpacing: 0.5 },
+
+  // --- BUTONLAR ---
   actionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     marginBottom: 30,
     gap: 15,
-    width: '100%'
+    width: '100%' // Boş ekranda tam genişlik
   },
   actionButton: {
     flex: 1,
@@ -216,7 +203,8 @@ const styles = StyleSheet.create({
   },
   btnIcon: { fontSize: 32, marginBottom: 8 },
   btnText: { color: '#fff', fontWeight: 'bold', fontSize: 14, textAlign: 'center' },
-  
+
+  // --- LİSTELER ---
   listContainer: { flex: 1 },
   section: { marginBottom: 25 },
   sectionHeader: { 

@@ -34,7 +34,7 @@ export const TEXTS = {
     emptyList: 'Your list is empty! Add some movies.',
     loading: 'Scanning database...',
     watchLabel: 'WATCH IN US:',
-    noPlatform: 'Not on Digital',
+    noPlatform: 'Not on Digital / Cinema',
     trailer: '▶ WATCH TRAILER',
     cast: 'CAST',
     crew: 'CREW',

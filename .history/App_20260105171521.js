@@ -11,6 +11,7 @@ import {
   StatusBar as RNStatusBar 
 } from 'react-native';
 
+
 import { COLORS } from './src/constants/colors';
 import { TEXTS } from './src/constants/texts';
 import { fetchSmartMovieData, IMAGE_URL, PROFILE_URL } from './src/services/api';
@@ -19,28 +20,28 @@ import {
     saveWatchlistToStorage, loadWatchlistFromStorage 
 } from './src/services/storage';
 
+
 import HomeScreen from './src/screens/HomeScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import WatchlistScreen from './src/screens/WatchlistScreen';
 import GenreScreen from './src/screens/GenreScreen';
 
 export default function App() {
+  
   const [step, setStep] = useState(1);
+  
   const [lastStep, setLastStep] = useState(1);
-  
-  
-  const [selectedGenreId, setSelectedGenreId] = useState(null); 
-  
 
   const [lang, setLang] = useState('tr');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   
+  
   const [favorites, setFavorites] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
 
   const T = TEXTS[lang];
-
+ 
   useEffect(() => {
     const loadData = async () => {
       const savedFavs = await loadFavoritesFromStorage();
@@ -63,6 +64,7 @@ export default function App() {
     await saveFavoritesToStorage(updated);
   };
 
+  
   const toggleWatchlist = async (item) => {
     let updated;
     if (watchlist.some(w => w.id === item.id)) {
@@ -73,7 +75,7 @@ export default function App() {
     setWatchlist(updated);
     await saveWatchlistToStorage(updated);
   };
-
+  
   const removeFromWatchlist = async (item) => {
     const updated = watchlist.filter(w => w.id !== item.id);
     setWatchlist(updated);
@@ -83,7 +85,7 @@ export default function App() {
   const moveWatchlistItemUp = async (index) => {
     if (index === 0) return;
     const newList = [...watchlist];
-    [newList[index], newList[index - 1]] = [newList[index - 1], newList[index]]; 
+    [newList[index], newList[index - 1]] = [newList[index - 1], newList[index]];
     setWatchlist(newList);
     await saveWatchlistToStorage(newList);
   };
@@ -91,17 +93,18 @@ export default function App() {
   const moveWatchlistItemDown = async (index) => {
     if (index === watchlist.length - 1) return;
     const newList = [...watchlist];
-    [newList[index], newList[index + 1]] = [newList[index + 1], newList[index]]; 
+    [newList[index], newList[index + 1]] = [newList[index + 1], newList[index]];
     setWatchlist(newList);
     await saveWatchlistToStorage(newList);
   };
-
   
   const determineNextGenre = () => {
-    if (favorites.length === 0) return null;
+    if (favorites.length === 0) return null; 
+
     const explorationChance = 0.3; 
     if (Math.random() < explorationChance) return null;
 
+    
     let genrePool = [];
     favorites.forEach(movie => {
         if (movie.genreIds && movie.genreIds.length > 0) {
@@ -112,21 +115,18 @@ export default function App() {
     if (genrePool.length === 0) return null;
     return genrePool[Math.floor(Math.random() * genrePool.length)];
   };
-
   
   const handleFetch = async () => {
     setLoading(true);
     try {
         const targetGenre = determineNextGenre();
         const data = await fetchSmartMovieData(lang, targetGenre);
+        
         if (data) {
             const processed = processMovieData(data);
             setResult(processed);
-            
-            setSelectedGenreId(null); 
-            
             setLastStep(1); 
-            setStep(2);
+            setStep(2); 
         }
     } catch (e) {
         Alert.alert("Hata", T.connErr);
@@ -134,20 +134,16 @@ export default function App() {
         setLoading(false);
     }
   };
-
   
   const handleGenreFetch = async (genreId) => {
     setLoading(true);
-    
-   
-    setSelectedGenreId(genreId);
-    
-
     try {
         const data = await fetchSmartMovieData(lang, genreId);
+        
         if (data) {
             const processed = processMovieData(data);
             setResult(processed);
+            
             setLastStep(4); 
             setStep(2);
         }
@@ -157,40 +153,11 @@ export default function App() {
         setLoading(false);
     }
   };
-
   
   const processMovieData = (rawData) => {
     const { movie, credits, providers } = rawData;
     let platformName = T.noPlatform;
     
-    const GENRE_MAP = {
-      28: { tr: 'Aksiyon', en: 'Action' },
-      12: { tr: 'Macera', en: 'Adventure' },
-      16: { tr: 'Animasyon', en: 'Animation' },
-      35: { tr: 'Komedi', en: 'Comedy' },
-      80: { tr: 'Suç', en: 'Crime' },
-      99: { tr: 'Belgesel', en: 'Documentary' },
-      18: { tr: 'Dram', en: 'Drama' },
-      10751: { tr: 'Aile', en: 'Family' },
-      14: { tr: 'Fantastik', en: 'Fantasy' },
-      36: { tr: 'Tarih', en: 'History' },
-      27: { tr: 'Korku', en: 'Horror' },
-      10402: { tr: 'Müzik', en: 'Music' },
-      9648: { tr: 'Gizem', en: 'Mystery' },
-      10749: { tr: 'Romantik', en: 'Romance' },
-      878: { tr: 'Bilim Kurgu', en: 'Sci-Fi' },
-      10770: { tr: 'TV Filmi', en: 'TV Movie' },
-      53: { tr: 'Gerilim', en: 'Thriller' },
-      10752: { tr: 'Savaş', en: 'War' },
-      37: { tr: 'Vahşi Batı', en: 'Western' }
-    };
-
-    const genreNames = movie.genre_ids
-      ?.map(id => GENRE_MAP[id]?.[lang]) 
-      .filter(Boolean) 
-      .slice(0, 3) 
-      .join(' • ');
-
     if (providers) {
         if (providers.flatrate) platformName = providers.flatrate[0].provider_name;
         else if (providers.rent) platformName = providers.rent[0].provider_name + ' (Kiralama)';
@@ -200,7 +167,6 @@ export default function App() {
     return {
         id: movie.id,
         genreIds: movie.genre_ids,
-        genres: genreNames || (lang === 'tr' ? 'Tür Bilgisi Yok' : 'No Genre Info'),
         originalTitle: movie.original_title,
         translatedTitle: movie.title,
         overview: movie.overview || T.noInfo,
@@ -229,8 +195,12 @@ export default function App() {
             onFetch={handleFetch} 
             favorites={favorites} 
             watchlist={watchlist}
+            
             onMood={() => setStep(4)} 
+            
             onManage={() => setStep(3)}
+
+            
             onOpenMovie={(item) => { 
                 setResult(item); 
                 setLastStep(1); 
@@ -239,21 +209,19 @@ export default function App() {
             texts={T}
         />
       ) : step === 2 ? (
+        
         <DetailScreen 
             result={result}
-            onBack={() => setStep(lastStep)} 
             
+            onBack={() => setStep(lastStep)} 
            
             onAgain={() => {
-                
-                if (lastStep === 4 && selectedGenreId) {
-                    handleGenreFetch(selectedGenreId);
+                if (lastStep === 4 && result && result.genreIds) {
+                    handleGenreFetch(result.genreIds[0]);
                 } else {
-                    
                     handleFetch();
                 }
             }}
-           
 
             isFavorite={favorites.some(f => f.id === result.id)}
             onToggleFavorite={() => toggleFavorite(result)}
@@ -264,12 +232,14 @@ export default function App() {
       ) : step === 3 ? (
         <WatchlistScreen 
             watchlist={watchlist}
-            onBack={() => setStep(1)} 
+            onBack={() => setStep(1)} // Ana sayfaya dön
+           
             onOpen={(item) => {
                 setResult(item);
                 setLastStep(3);
                 setStep(2);
             }}
+
             onRemove={removeFromWatchlist}
             onMoveUp={moveWatchlistItemUp}
             onMoveDown={moveWatchlistItemDown}
@@ -279,8 +249,8 @@ export default function App() {
         <GenreScreen 
             lang={lang}
             texts={T}
-            onBack={() => setStep(1)} 
-            onSelectGenre={(genreId) => handleGenreFetch(genreId)} 
+            onBack={() => setStep(1)}
+            onSelectGenre={(genreId) => handleGenreFetch(genreId)}
         />
       )}
     </SafeAreaView>

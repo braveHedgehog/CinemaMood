@@ -28,24 +28,24 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
 
   return (
     <ScrollView contentContainerStyle={styles.container} bounces={false}>
-      {}
+      {/* POSTER VE BUTONLAR */}
       <View style={styles.posterWrapper}>
         <Image source={result.poster ? { uri: result.poster } : null} style={styles.poster} resizeMode="cover" />
         
         <View style={styles.headerButtons}>
-            {}
+            {/* İzleme Listesi Butonu */}
             <TouchableOpacity style={styles.iconButton} onPress={onToggleWatchlist}>
                 <Text style={styles.iconText}>{isInWatchlist ? '✅' : '🎬'}</Text>
             </TouchableOpacity>
 
-            {}
+            {/* Favori Butonu */}
             <TouchableOpacity style={styles.iconButton} onPress={onToggleFavorite}>
                 <Text style={styles.iconText}>{isFavorite ? '❤️' : '🤍'}</Text>
             </TouchableOpacity>
         </View>
       </View>
       
-      {}
+      {/* DETAY KARTI */}
       <View style={styles.detailsCard}>
          
          <View style={styles.topRow}>
@@ -53,7 +53,7 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
             <Text style={styles.date}>{result.date.split('-')[0]}</Text>
          </View>
          
-         {}
+         {/* YENİ EKLENEN TÜR BİLGİSİ */}
          <Text style={styles.genreText}>{result.genres}</Text>
           
          <Text style={styles.originalTitle}>
@@ -95,7 +95,7 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
             </>
          )}
 
-         {}
+         {/* ALT BUTONLAR */}
          <TouchableOpacity style={styles.actionButton} onPress={onAgain}>
             <Text style={styles.actionBtnText}>{texts.btnAgain}</Text>
          </TouchableOpacity>

@@ -11,6 +11,7 @@ import {
   StatusBar as RNStatusBar 
 } from 'react-native';
 
+// --- MODÜLLER ---
 import { COLORS } from './src/constants/colors';
 import { TEXTS } from './src/constants/texts';
 import { fetchSmartMovieData, IMAGE_URL, PROFILE_URL } from './src/services/api';
@@ -19,18 +20,17 @@ import {
     saveWatchlistToStorage, loadWatchlistFromStorage 
 } from './src/services/storage';
 
+// --- EKRANLAR ---
 import HomeScreen from './src/screens/HomeScreen';
 import DetailScreen from './src/screens/DetailScreen';
 import WatchlistScreen from './src/screens/WatchlistScreen';
 import GenreScreen from './src/screens/GenreScreen';
 
 export default function App() {
+  // 1: Home, 2: Detail, 3: Watchlist, 4: GenreSelection
   const [step, setStep] = useState(1);
+  // Navigasyon Hafızası (Geri tuşu için)
   const [lastStep, setLastStep] = useState(1);
-  
-  
-  const [selectedGenreId, setSelectedGenreId] = useState(null); 
-  
 
   const [lang, setLang] = useState('tr');
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function App() {
     loadData();
   }, []);
 
-  
+  // --- LİSTE YÖNETİMİ ---
   const toggleFavorite = async (item) => {
     let updated;
     if (favorites.some(fav => fav.id === item.id)) {
@@ -96,7 +96,7 @@ export default function App() {
     await saveWatchlistToStorage(newList);
   };
 
-  
+  // --- AKILLI ÖNERİ ---
   const determineNextGenre = () => {
     if (favorites.length === 0) return null;
     const explorationChance = 0.3; 
@@ -113,7 +113,7 @@ export default function App() {
     return genrePool[Math.floor(Math.random() * genrePool.length)];
   };
 
-  
+  // --- API İSTEKLERİ ---
   const handleFetch = async () => {
     setLoading(true);
     try {
@@ -122,9 +122,6 @@ export default function App() {
         if (data) {
             const processed = processMovieData(data);
             setResult(processed);
-            
-            setSelectedGenreId(null); 
-            
             setLastStep(1); 
             setStep(2);
         }
@@ -135,14 +132,8 @@ export default function App() {
     }
   };
 
-  
   const handleGenreFetch = async (genreId) => {
     setLoading(true);
-    
-   
-    setSelectedGenreId(genreId);
-    
-
     try {
         const data = await fetchSmartMovieData(lang, genreId);
         if (data) {
@@ -158,11 +149,12 @@ export default function App() {
     }
   };
 
-  
+  // --- VERİ İŞLEME (TÜR İSİMLERİ DAHİL) ---
   const processMovieData = (rawData) => {
     const { movie, credits, providers } = rawData;
     let platformName = T.noPlatform;
     
+    // 1. TÜR SÖZLÜĞÜ (ID -> İsim)
     const GENRE_MAP = {
       28: { tr: 'Aksiyon', en: 'Action' },
       12: { tr: 'Macera', en: 'Adventure' },
@@ -182,9 +174,10 @@ export default function App() {
       10770: { tr: 'TV Filmi', en: 'TV Movie' },
       53: { tr: 'Gerilim', en: 'Thriller' },
       10752: { tr: 'Savaş', en: 'War' },
-      37: { tr: 'Vahşi Batı', en: 'Western' }
+      37: { tr: 'Western', en: 'Western' }
     };
 
+    // 2. Türleri Yazıya Çevirme
     const genreNames = movie.genre_ids
       ?.map(id => GENRE_MAP[id]?.[lang]) 
       .filter(Boolean) 
@@ -200,7 +193,7 @@ export default function App() {
     return {
         id: movie.id,
         genreIds: movie.genre_ids,
-        genres: genreNames || (lang === 'tr' ? 'Tür Bilgisi Yok' : 'No Genre Info'),
+        genres: genreNames || (lang === 'tr' ? 'Tür Bilgisi Yok' : 'No Genre Info'), // İŞLENMİŞ TÜR VERİSİ
         originalTitle: movie.original_title,
         translatedTitle: movie.title,
         overview: movie.overview || T.noInfo,
@@ -242,19 +235,13 @@ export default function App() {
         <DetailScreen 
             result={result}
             onBack={() => setStep(lastStep)} 
-            
-           
             onAgain={() => {
-                
-                if (lastStep === 4 && selectedGenreId) {
-                    handleGenreFetch(selectedGenreId);
+                if (lastStep === 4 && result && result.genreIds) {
+                    handleGenreFetch(result.genreIds[0]);
                 } else {
-                    
                     handleFetch();
                 }
             }}
-           
-
             isFavorite={favorites.some(f => f.id === result.id)}
             onToggleFavorite={() => toggleFavorite(result)}
             isInWatchlist={watchlist.some(w => w.id === result.id)}

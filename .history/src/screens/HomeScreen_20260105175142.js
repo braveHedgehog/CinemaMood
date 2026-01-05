@@ -19,7 +19,7 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
   return (
     <View style={styles.container}>
       
-      {}
+      {/* --- DİL SEÇİCİ --- */}
       <View style={styles.langWrapper}>
         <View style={styles.langRow}>
             <TouchableOpacity onPress={() => setLang('tr')} style={[styles.langBtn, lang === 'tr' && styles.langActive]}>
@@ -31,31 +31,32 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
         </View>
       </View>
 
-      {}
+      {/* --- İÇERİK ALANI --- */}
       <View style={isEmpty ? styles.centeredView : styles.scrollingView}>
 
-          {}
+          {/* --- HEADER (LOGO & BAŞLIK) --- */}
           <View style={isEmpty ? styles.headerEmpty : styles.headerFilled}>
             {isEmpty ? (
-                
+                // --- BOŞ EKRAN TASARIMI (Büyük Logo) ---
                 <View style={styles.emptyStateHero}>
                     <View style={styles.logoCircle}>
-                        {}
+                        {/* 2. ADIM (A): EMOJİ YERİNE BÜYÜK RESİM */}
                         <Image source={appLogo} style={styles.logoImageBig} />
                     </View>
                     <Text style={styles.titleBig}>{texts.header}</Text>
                     <Text style={styles.subTitle}>{texts.subHeader}</Text>
                 </View>
             ) : (
+                // --- DOLU EKRAN TASARIMI (Küçük, Sola Yaslı Logo) ---
                 <View style={styles.headerFilledContent}>
-                    {}
+                    {/* 2. ADIM (B): EMOJİ YERİNE KÜÇÜK RESİM */}
                     <Image source={appLogo} style={styles.logoImageSmall} />
                     <Text style={styles.titleSmall}>{texts.header}</Text>
                 </View>
             )}
           </View>
 
-          {}
+          {/* --- AKSİYON BUTONLARI --- */}
           <View style={styles.actionRow}>
             <TouchableOpacity style={[styles.actionButton, { backgroundColor: COLORS.primary }]} onPress={onFetch}>
                 <Text style={styles.btnIcon}>🎲</Text>
@@ -68,11 +69,11 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
             </TouchableOpacity>
           </View>
 
-          {}
+          {/* --- LİSTELER (Sadece Doluysa Görünür) --- */}
           {!isEmpty && (
             <View style={styles.listContainer}>
               
-              {}
+              {/* İZLEME LİSTESİ */}
               {watchlist.length > 0 && (
                 <View style={styles.section}>
                   <View style={styles.sectionHeader}>
@@ -92,7 +93,7 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
                 </View>
               )}
 
-              {}
+              {/* FAVORİLER */}
               {favorites.length > 0 && (
                 <View style={styles.section}>
                   <Text style={[styles.sectionTitle, { marginLeft: 20, marginBottom: 10 }]}>{texts.favHeader}</Text>
@@ -116,7 +117,8 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
-  
+
+  // --- LAYOUTS ---
   centeredView: { 
       flex: 1, 
       justifyContent: 'center', 
@@ -128,7 +130,8 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       paddingTop: 80 
   },
-  
+
+  // --- DİL SEÇİCİ ---
   langWrapper: { 
       position: 'absolute', 
       top: 50, 
@@ -139,16 +142,18 @@ const styles = StyleSheet.create({
   langBtn: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: 8, backgroundColor: 'rgba(0,0,0,0.5)', borderWidth: 1, borderColor: '#444' },
   langActive: { borderColor: COLORS.primary, backgroundColor: '#333' },
   langText: { color: '#fff', fontSize: 12, fontWeight: 'bold' },
-  
+
+  // --- HEADER STILLERI ---
   headerEmpty: { alignItems: 'center', marginBottom: 40 },
   headerFilled: { paddingHorizontal: 20, marginBottom: 20, alignItems: 'flex-start' },
+  // Logo ve Başlığı yan yana almak için yeni stil:
   headerFilledContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
 
-  
+  // BOŞ EKRAN ÖZEL (HERO)
   emptyStateHero: { alignItems: 'center' },
   logoCircle: {
       width: 180,
@@ -167,27 +172,33 @@ const styles = StyleSheet.create({
       elevation: 10,
   },
   
+  // 3. ADIM: YENİ RESİM STİLLERİ
+  // (Eski logoBig ve logoSmall stillerini sildik)
+
+  // Büyük Logo Stili (Dairenin içinde)
   logoImageBig: {
-    width: 500, 
+    width: 500,  // Dairenin (140px) içine sığacak boyutta
     height: 500,
     marginTop:25,
-    resizeMode: 'contain' 
+    resizeMode: 'contain' // Resmi bozmadan sığdır
   },
-  
+
+  // Küçük Logo Stili (Sol üstte)
   logoImageSmall: {
     width: 200,
     height: 100,
     resizeMode: 'contain',
     marginRight: -70,
-    marginLeft:-80 
+    marginLeft:-80 // Başlık ile arasına boşluk
   },
 
   titleBig: { fontSize: 32, fontWeight: '900', color: '#fff', textAlign: 'center', letterSpacing: 1, marginBottom: 8 },
   subTitle: { color: '#888', textAlign: 'center', fontSize: 16, maxWidth: '80%' },
-  
+
+  // DOLU EKRAN BAŞLIK
   titleSmall: { fontSize: 24, fontWeight: 'bold', color: '#fff', letterSpacing: 0.5, marginBottom:10 },
 
-  
+  // --- BUTONLAR ---
   actionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -216,7 +227,8 @@ const styles = StyleSheet.create({
   },
   btnIcon: { fontSize: 32, marginBottom: 8 },
   btnText: { color: '#fff', fontWeight: 'bold', fontSize: 14, textAlign: 'center' },
-  
+
+  // --- LİSTELER ---
   listContainer: { flex: 1 },
   section: { marginBottom: 25 },
   sectionHeader: { 
