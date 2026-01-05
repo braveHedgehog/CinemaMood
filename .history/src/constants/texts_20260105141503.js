@@ -13,7 +13,7 @@ export const TEXTS = {
     noPlatform: 'Dijitalde Yok / Sinema',
     trailer: '▶ FRAGMANI İZLE',
     cast: 'OYUNCULAR',
-    crew: 'FİLM EKİBİ',
+    crew: 'Film Ekibi',
     btnAgain: '🎲 BAŞKA ÖNER',
     btnBack: 'Ana Sayfaya Dön',
     connErr: 'Bağlantı Hatası',
