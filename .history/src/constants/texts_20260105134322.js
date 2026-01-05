@@ -2,7 +2,7 @@ export const TEXTS = {
   tr: {
     header: 'FİLM GURMESİ',
     subHeader: 'Sadece en iyiler, sadece senin için.',
-    btnMain: 'Rastgele Film Bul 🎲',
+    btnMain: 'Rastgele Film Bul 🎲', // Eski haline döndü
     favHeader: '❤️ FAVORİLERİM',
     loading: 'Veritabanı taranıyor...',
     watchLabel: 'TR\'DE BURADA:',
@@ -18,7 +18,7 @@ export const TEXTS = {
   en: {
     header: 'MOVIE GOURMET',
     subHeader: 'Only the best, tailored for you.',
-    btnMain: 'Find Random Movie 🎲',
+    btnMain: 'Find Random Movie 🎲', // Eski haline döndü
     favHeader: '❤️ MY FAVORITES',
     loading: 'Scanning database...',
     watchLabel: 'WATCH IN US:',

@@ -5,9 +5,6 @@ export const TEXTS = {
     btnMain: 'Rastgele Film Bul 🎲', // Eski haline döndü
     favHeader: '❤️ FAVORİLERİM',
     watchlistHeader: '📋 İZLEME LİSTEM',
-    manageList: 'DÜZENLE ✏️', // Ana sayfadaki buton
-    manageTitle: 'LİSTEYİ DÜZENLE', // Yeni sayfa başlığı
-    emptyList: 'Listen bomboş! Biraz film ekle.',
     loading: 'Veritabanı taranıyor...',
     watchLabel: 'TR\'DE BURADA:',
     noPlatform: 'Dijitalde Yok / Sinema',
@@ -25,9 +22,6 @@ export const TEXTS = {
     btnMain: 'Find Random Movie 🎲', // Eski haline döndü
     favHeader: '❤️ MY FAVORITES',
     watchlistHeader: '📋 WATCHLIST',
-    manageList: 'EDIT ✏️',
-    manageTitle: 'MANAGE LIST',
-    emptyList: 'Your list is empty! Add some movies.',
     loading: 'Scanning database...',
     watchLabel: 'WATCH IN US:',
     noPlatform: 'Not on Digital / Cinema',

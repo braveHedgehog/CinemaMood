@@ -3,7 +3,9 @@ import { SafeAreaView, StatusBar, View, ActivityIndicator, Text, Alert, StyleShe
 
 import { COLORS } from './src/constants/colors';
 import { TEXTS } from './src/constants/texts';
+// importu düzelttik:
 import { fetchRandomMovieData, IMAGE_URL, PROFILE_URL } from './src/services/api';
+// sadece favoriler kaldı:
 import { saveFavoritesToStorage, loadFavoritesFromStorage } from './src/services/storage';
 
 import HomeScreen from './src/screens/HomeScreen';
@@ -17,7 +19,8 @@ export default function App() {
   const [favorites, setFavorites] = useState([]);
 
   const T = TEXTS[lang];
-  
+
+  // Açılışta Favorileri Yükle
   useEffect(() => {
     const loadData = async () => {
       const savedFavorites = await loadFavoritesFromStorage();
@@ -25,18 +28,28 @@ export default function App() {
     };
     loadData();
   }, []);
-  
+
   const toggleFavorite = async (item) => {
     let updatedFavorites;
-    
     if (favorites.some(fav => fav.id === item.id)) {
       updatedFavorites = favorites.filter(fav => fav.id !== item.id);
     } else {
       updatedFavorites = [...favorites, item];
     }
-
     setFavorites(updatedFavorites);
     await saveFavoritesToStorage(updatedFavorites);
+  };
+
+  const getPlatformColor = (platformName) => {
+    if (!platformName) return COLORS.platforms.default;
+    const lower = platformName.toLowerCase();
+    if (lower.includes('netflix')) return COLORS.platforms.netflix;
+    if (lower.includes('disney')) return COLORS.platforms.disney;
+    if (lower.includes('amazon') || lower.includes('prime')) return COLORS.platforms.prime;
+    if (lower.includes('apple')) return COLORS.platforms.apple;
+    if (lower.includes('hulu')) return COLORS.platforms.hulu;
+    if (lower.includes('hbo') || lower.includes('max')) return COLORS.platforms.hbo;
+    return COLORS.platforms.default;
   };
 
   const processMovieData = (rawData) => {
@@ -58,6 +71,7 @@ export default function App() {
         date: movie.release_date || "????",
         poster: movie.poster_path ? `${IMAGE_URL}${movie.poster_path}` : null,
         platform: platformName,
+        platformColor: getPlatformColor(platformName),
         cast: credits.cast?.slice(0, 10).map(p => ({ id: p.id, name: p.name, image: p.profile_path ? `${PROFILE_URL}${p.profile_path}` : null })) || [],
         crew: credits.crew?.filter(p => ['Director', 'Writer'].includes(p.job)).slice(0, 4).map(p => ({ id: p.id, name: p.name, job: p.job, image: p.profile_path ? `${PROFILE_URL}${p.profile_path}` : null })) || []
     };
@@ -66,6 +80,7 @@ export default function App() {
   const handleFetch = async () => {
     setLoading(true);
     try {
+        // Eski, sade API çağrısı
         const data = await fetchRandomMovieData(lang);
         if (data) {
             const processed = processMovieData(data);
