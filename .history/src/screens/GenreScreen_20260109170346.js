@@ -48,7 +48,7 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
         <View style={styles.titleArea}>
             <Text style={styles.headerTitle}>{texts.genreTitle}</Text>
             <Text style={styles.subHeader}>
-                {lang === 'tr' ? 'Bugün ne izlemek istersin?' : 'What\'s your mood today?'}
+                {lang === 'tr' ? 'Bugün ne izlemek istersin?' : 'What\'s your vibe today?'}
             </Text>
         </View>
       </View>
@@ -77,12 +77,19 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start' 
   },
   backBtn: { 
-      padding: 10, 
-      backgroundColor: '#222', 
-      borderRadius: 12, 
-      marginRight: 15,
-      borderWidth: 1,
-      borderColor: '#333'
+     position: 'absolute',
+           // eslint-disable-next-line no-undef
+           top: Platform.OS === 'ios' ? 50 : 20, // Çentik ayarı
+           left: 20,
+           width: 45,
+           height: 45,
+           borderRadius: 25,
+           backgroundColor: 'rgba(0,0,0,0.6)', // Yarı saydam siyah
+           justifyContent: 'center',
+           alignItems: 'center',
+           zIndex: 10,
+           borderWidth: 1,
+           borderColor: 'rgba(255,255,255,0.2)'
   },
   backText: { color: '#fff', fontSize: 30, fontWeight: 'bold', lineHeight: 24, marginTop:-10 },
   

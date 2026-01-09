@@ -48,7 +48,7 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
         <View style={styles.titleArea}>
             <Text style={styles.headerTitle}>{texts.genreTitle}</Text>
             <Text style={styles.subHeader}>
-                {lang === 'tr' ? 'Bugün ne izlemek istersin?' : 'What\'s your mood today?'}
+                {lang === 'tr' ? 'Bugün ne izlemek istersin?' : 'What\'s your vibe today?'}
             </Text>
         </View>
       </View>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: '#333'
   },
-  backText: { color: '#fff', fontSize: 30, fontWeight: 'bold', lineHeight: 24, marginTop:-10 },
+  backText: { color: '#fff', fontSize: 22, fontWeight: 'bold', lineHeight: 24,paddingTop:-10 },
   
   titleArea: { flex: 1 },
   headerTitle: { color: '#fff', fontSize: 24, fontWeight: '900', letterSpacing: 0.5, marginBottom: 5 },

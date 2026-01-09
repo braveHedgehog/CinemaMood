@@ -3,7 +3,6 @@ import { View, Text, Image, ScrollView, TouchableOpacity, FlatList, StyleSheet, 
 import { COLORS } from '../constants/colors';
 import CastItem from '../components/CastItem';
 
-
 const { width, height } = Dimensions.get('window');
 
 const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, isInWatchlist, onToggleWatchlist, texts }) => {

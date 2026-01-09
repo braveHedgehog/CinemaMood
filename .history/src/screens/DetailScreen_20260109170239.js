@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, FlatList, StyleSheet, Linking, Alert, Dimensions, Platform,Share } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, FlatList, StyleSheet, Linking, Alert, Dimensions, Platform } from 'react-native';
 import { COLORS } from '../constants/colors';
 import CastItem from '../components/CastItem';
-
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,14 +27,6 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
 
   const showSubTitle = result.originalTitle !== result.translatedTitle;
   const platformColor = getPlatformColor(result.platform);
-  const handleShare = async () => {
-  try {
-    const message = `🎬 ${result.originalTitle} (${result.rating})\n\nBu filmi Mood Cinema'da buldum! İzlemelisin.\n\nÖzet: ${result.overview}`;
-    await Share.share({ message });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
   return (
     <View style={styles.mainContainer}>
@@ -127,9 +118,6 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
           <TouchableOpacity style={styles.iconButtonSmall} onPress={onToggleWatchlist}>
               <Text style={styles.iconTextSmall}>{isInWatchlist ? '✅' : '🎬'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButtonSmall} onPress={handleShare}>
-        <Text style={styles.iconTextSmall}>📤</Text>
-    </TouchableOpacity>
 
           <TouchableOpacity style={styles.iconButtonSmall} onPress={onToggleFavorite}>
               <Text style={styles.iconTextSmall}>{isFavorite ? '❤️' : '🤍'}</Text>
@@ -177,7 +165,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: 'rgba(255,255,255,0.2)'
   },
-  backIcon: { color: '#fff', fontSize: 30, fontWeight: 'bold', marginTop:-10 },
+  backIcon: { color: '#fff', fontSize: 24, fontWeight: 'bold', marginTop:-10 },
 
   topRightButtons: {
       position: 'absolute',

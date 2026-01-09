@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, FlatList, StyleSheet, Linking, Alert, Dimensions, Platform,Share } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, FlatList, StyleSheet, Linking, Alert, Dimensions, Platform,Share,Vibration } from 'react-native';
 import { COLORS } from '../constants/colors';
 import CastItem from '../components/CastItem';
-
 
 const { width, height } = Dimensions.get('window');
 
@@ -77,7 +76,7 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
                     <Text style={styles.platformName} numberOfLines={1}>{result.platform}</Text>
                </View>
 
-               <TouchableOpacity style={styles.youtubeButton} onPress={openYouTube}>
+               <TouchableOpacity style={styles.youtubeButton} onPress={()=>{Vibration.vibrate(10); openYouTube();}}>
                     <Text style={styles.youtubeIcon}>▶</Text>
                </TouchableOpacity>
            </View>
@@ -118,27 +117,27 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
       {/* --- SABİT (FLOATING) ÜST BUTONLAR --- */}
       
       {/* 1. GERİ DÖN (Sol Üst) */}
-      <TouchableOpacity style={styles.backButtonFixed} onPress={onBack}>
+      <TouchableOpacity style={styles.backButtonFixed} onPress={()=>{Vibration.vibrate(10); onBack();}}>
           <Text style={styles.backIcon}>←</Text>
       </TouchableOpacity>
 
       {/* 2. SAĞ ÜST İKONLAR (Watchlist & Fav) */}
       <View style={styles.topRightButtons}>
-          <TouchableOpacity style={styles.iconButtonSmall} onPress={onToggleWatchlist}>
+          <TouchableOpacity style={styles.iconButtonSmall} onPress={()=>{Vibration.vibrate(10); onToggleWatchlist();}}>
               <Text style={styles.iconTextSmall}>{isInWatchlist ? '✅' : '🎬'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButtonSmall} onPress={handleShare}>
+          <TouchableOpacity style={styles.iconButtonSmall} onPress={()=>{Vibration.vibrate(10); handleShare();}}>
         <Text style={styles.iconTextSmall}>📤</Text>
     </TouchableOpacity>
 
-          <TouchableOpacity style={styles.iconButtonSmall} onPress={onToggleFavorite}>
+          <TouchableOpacity style={styles.iconButtonSmall} onPress={()=>{Vibration.vibrate(10); onToggleFavorite();}}>
               <Text style={styles.iconTextSmall}>{isFavorite ? '❤️' : '🤍'}</Text>
           </TouchableOpacity>
       </View>
 
       {/* --- SABİT (FLOATING) ALT BUTON (BAŞKA ÖNER) --- */}
       <View style={styles.floatingBottomContainer}>
-          <TouchableOpacity style={styles.floatingButton} onPress={onAgain} activeOpacity={0.8}>
+          <TouchableOpacity style={styles.floatingButton} onPress={()=>{Vibration.vibrate(10); onAgain();}} activeOpacity={0.8}>
             <Text style={styles.floatingBtnText}>{texts.btnAgain}</Text>
           </TouchableOpacity>
       </View>

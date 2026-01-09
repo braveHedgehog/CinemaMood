@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, FlatList, StyleSheet, Linking, Alert, Dimensions, Platform,Share } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, FlatList, StyleSheet, Linking, Alert, Dimensions, Platform,Share,Vibration } from 'react-native';
 import { COLORS } from '../constants/colors';
 import CastItem from '../components/CastItem';
-
 
 const { width, height } = Dimensions.get('window');
 
@@ -77,7 +76,7 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
                     <Text style={styles.platformName} numberOfLines={1}>{result.platform}</Text>
                </View>
 
-               <TouchableOpacity style={styles.youtubeButton} onPress={openYouTube}>
+               <TouchableOpacity style={styles.youtubeButton} onPress={()=>{Vibration.vibrate(10); openYouTube();}}>
                     <Text style={styles.youtubeIcon}>▶</Text>
                </TouchableOpacity>
            </View>

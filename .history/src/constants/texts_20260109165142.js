@@ -16,7 +16,7 @@ export const TEXTS = {
     trailer: '▶ FRAGMANI İZLE',
     cast: 'OYUNCULAR',
     crew: 'FİLM EKİBİ',
-    btnAgain: 'BAŞKA ÖNER',
+    btnAgain: '🎲 BAŞKA ÖNER',
     btnBack: 'Ana Sayfaya Dön',
     connErr: 'Bağlantı Hatası',
     noInfo: 'Bilgi Yok'
@@ -38,7 +38,7 @@ export const TEXTS = {
     trailer: '▶ WATCH TRAILER',
     cast: 'CAST',
     crew: 'CREW',
-    btnAgain: 'SUGGEST ANOTHER',
+    btnAgain: '🎲 SUGGEST ANOTHER',
     btnBack: 'Back to Home',
     connErr: 'Connection Error',
     noInfo: 'No Info'

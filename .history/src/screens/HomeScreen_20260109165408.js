@@ -58,7 +58,7 @@ const HomeScreen = ({ lang, setLang, onFetch, onMood, favorites, watchlist, onOp
           {}
           <View style={styles.actionRow}>
             <TouchableOpacity style={[styles.actionButton, { backgroundColor: COLORS.primary }]} onPress={onFetch}>
-                <Text style={styles.btnIcon}>🎬</Text>
+                <Text style={styles.btnIcon}>🎲</Text>
                 <Text style={styles.btnText}>{texts.btnMain}</Text>
             </TouchableOpacity>
 
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   logoImageBig: {
     width: 500, 
     height: 500,
-    marginTop:25,
+    //marginTop:25,
     resizeMode: 'contain' 
   },
   
@@ -179,14 +179,13 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: 'contain',
     marginRight: -70,
-    marginLeft:-80, 
-    marginTop:-60
+    marginLeft:-80 
   },
 
   titleBig: { fontSize: 32, fontWeight: '900', color: '#fff', textAlign: 'center', letterSpacing: 1, marginBottom: 8 },
   subTitle: { color: '#888', textAlign: 'center', fontSize: 16, maxWidth: '80%' },
   
-  titleSmall: { fontSize: 24, fontWeight: 'bold', color: '#fff', letterSpacing: 0.5, marginBottom:10,marginTop:-60 },
+  titleSmall: { fontSize: 24, fontWeight: 'bold', color: '#fff', letterSpacing: 0.5, marginBottom:10 },
 
   
   actionRow: {
