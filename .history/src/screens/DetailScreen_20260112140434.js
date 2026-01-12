@@ -119,7 +119,7 @@ const DetailScreen = ({ result, onBack, onAgain, isFavorite, onToggleFavorite, i
       
       {/* 1. GERİ DÖN (Sol Üst) */}
       <TouchableOpacity style={styles.backButtonFixed} onPress={onBack}>
-          <Text style={styles.backIcon}>⬅️</Text>
+          <Text style={styles.backIcon}>←⬅️</Text>
       </TouchableOpacity>
 
       {/* 2. SAĞ ÜST İKONLAR (Watchlist & Fav) */}
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: 'rgba(255,255,255,0.2)'
   },
-  backIcon: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
+  backIcon: { color: '#fff', fontSize: 30, fontWeight: 'bold', marginTop:-10 },
 
   topRightButtons: {
       position: 'absolute',

@@ -50,7 +50,7 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={onBack} style={styles.backBtn}>
-          <Text style={styles.backText}>⬅️</Text>
+          <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
         
         <View style={styles.titleArea}>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   },
   genreText: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: 'bold',
     letterSpacing: 0.5,
     textAlign: 'center'

@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: 'rgba(255,255,255,0.2)'
   },
-  backIcon: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
+  backIcon: { color: '#fff', fontSize: 30, fontWeight: 'bold', marginTop:-10 },
 
   topRightButtons: {
       position: 'absolute',

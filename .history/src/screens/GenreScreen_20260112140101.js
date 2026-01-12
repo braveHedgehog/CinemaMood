@@ -8,7 +8,7 @@ const CARD_WIDTH = (width - 60) / 2;
 // Tür Listesi
 const GENRES = [
   // Özel Kategoriler
-  { id: 'local-tr', tr: 'Yerli Filmler',color: '#E84118' },
+  { id: 'local-tr', tr: 'Yerli Filmler', en: 'Local Movies',color: '#E84118' },
   { id: 'rom-com', tr: 'Romantik Komedi', en: 'Rom-Com', emoji: '😍', color: '#e056fd' },
   
   // Standart Türler
@@ -42,6 +42,7 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
       activeOpacity={0.7}
     >
       <View style={[styles.dot, { backgroundColor: item.color }]} />
+      <Text style={styles.emoji}>{item.emoji}</Text>
       <Text style={styles.genreText}>{lang === 'tr' ? item.tr : item.en}</Text>
     </TouchableOpacity>
   );
@@ -50,7 +51,7 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={onBack} style={styles.backBtn}>
-          <Text style={styles.backText}>⬅️</Text>
+          <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
         
         <View style={styles.titleArea}>
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   },
   genreText: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: 'bold',
     letterSpacing: 0.5,
     textAlign: 'center'

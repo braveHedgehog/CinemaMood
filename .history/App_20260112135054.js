@@ -168,7 +168,7 @@ export default function App() {
 
   
   const processMovieData = (rawData) => {
-    const { movie, credits, providers } = rawData;
+    const { movie, credits, providers, videos } = rawData; 
     let platformName = T.noPlatform;
     
     const GENRE_MAP = {
@@ -192,6 +192,11 @@ export default function App() {
       10752: { tr: 'Savaş', en: 'War' },
       37: { tr: 'Vahşi Batı', en: 'Western' }
     };
+const trailer = videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Trailer') 
+                 || videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Teaser')
+                 || videos?.results?.find(v => v.site === 'YouTube');
+                 
+    const youtubeKey = trailer ? trailer.key : null;
 
     const genreNames = movie.genre_ids
       ?.map(id => GENRE_MAP[id]?.[lang]) 
@@ -207,6 +212,7 @@ export default function App() {
 
     return {
         id: movie.id,
+        youtubeKey: youtubeKey,
         genreIds: movie.genre_ids,
         genres: genreNames || (lang === 'tr' ? 'Tür Bilgisi Yok' : 'No Genre Info'),
         originalTitle: movie.original_title,

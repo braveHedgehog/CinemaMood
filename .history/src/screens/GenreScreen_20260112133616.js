@@ -5,13 +5,13 @@ import { COLORS } from '../constants/colors';
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - 60) / 2;
 
-// Tür Listesi
+// Tür Listesi (Güncellendi)
 const GENRES = [
-  // Özel Kategoriler
-  { id: 'local-tr', tr: 'Yerli Filmler',color: '#E84118' },
-  { id: 'rom-com', tr: 'Romantik Komedi', en: 'Rom-Com', emoji: '😍', color: '#e056fd' },
+  // --- YENİ EKLENENLER (En başa veya araya koyabilirsin) ---
+  { id: 'local-tr', tr: 'Yerli Filmler', en: 'Local Movies', emoji: '🇹🇷', color: '#E84118' }, // Kırmızı
+  { id: 'rom-com', tr: 'Romantik Komedi', en: 'Rom-Com', emoji: '😍', color: '#e056fd' },     // Lila/Pembe
+  // ---------------------------------------------------------
   
-  // Standart Türler
   { id: 28, tr: 'Aksiyon', en: 'Action', emoji: '🔥', color: '#FF4757' },
   { id: 35, tr: 'Komedi', en: 'Comedy', emoji: '😂', color: '#FFA502' },
   { id: 18, tr: 'Dram', en: 'Drama', emoji: '🎭', color: '#5352ED' },
@@ -25,16 +25,9 @@ const GENRES = [
 ];
 
 const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
-
-  // --- FİLTRELEME MANTIĞI ---
-  // Eğer dil İngilizce ise 'local-tr' ID'li öğeyi listeden çıkar.
-  const displayedGenres = GENRES.filter(item => {
-    if (lang === 'en' && item.id === 'local-tr') {
-        return false; // Listeye alma
-    }
-    return true; // Diğerlerini al
-  });
-
+  // ... (Geri kalan kodlar ve stiller AYNEN kalacak)
+  // Sadece yukarıdaki GENRES dizisini güncellemen yeterli.
+  
   const renderItem = ({ item }) => (
     <TouchableOpacity 
       style={[styles.card, { backgroundColor: item.color + '20', borderColor: item.color }]}
@@ -42,6 +35,7 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
       activeOpacity={0.7}
     >
       <View style={[styles.dot, { backgroundColor: item.color }]} />
+      <Text style={styles.emoji}>{item.emoji}</Text>
       <Text style={styles.genreText}>{lang === 'tr' ? item.tr : item.en}</Text>
     </TouchableOpacity>
   );
@@ -50,9 +44,8 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={onBack} style={styles.backBtn}>
-          <Text style={styles.backText}>⬅️</Text>
+          <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
-        
         <View style={styles.titleArea}>
             <Text style={styles.headerTitle}>{texts.genreTitle}</Text>
             <Text style={styles.subHeader}>
@@ -62,8 +55,7 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
       </View>
 
       <FlatList
-        // GENRES yerine filtrelediğimiz displayedGenres'i veriyoruz
-        data={displayedGenres} 
+        data={GENRES}
         keyExtractor={item => 'g_' + item.id}
         renderItem={renderItem}
         numColumns={2}
@@ -76,66 +68,20 @@ const GenreScreen = ({ lang, onSelectGenre, onBack, texts }) => {
 };
 
 const styles = StyleSheet.create({
+  // ... (Stiller aynı)
   container: { flex: 1, backgroundColor: COLORS.background, paddingTop: 20 },
-  
-  headerContainer: { 
-      paddingHorizontal: 20, 
-      marginBottom: 20, 
-      flexDirection: 'row', 
-      alignItems: 'flex-start' 
-  },
-  backBtn: { 
-      padding: 10, 
-      backgroundColor: '#222', 
-      borderRadius: 12, 
-      marginRight: 15,
-      borderWidth: 1,
-      borderColor: '#333'
-  },
+  headerContainer: { paddingHorizontal: 20, marginBottom: 20, flexDirection: 'row', alignItems: 'flex-start' },
+  backBtn: { padding: 10, backgroundColor: '#222', borderRadius: 12, marginRight: 15, borderWidth: 1, borderColor: '#333' },
   backText: { color: '#fff', fontSize: 22, fontWeight: 'bold', lineHeight: 24 },
-  
   titleArea: { flex: 1 },
   headerTitle: { color: '#fff', fontSize: 24, fontWeight: '900', letterSpacing: 0.5, marginBottom: 5 },
   subHeader: { color: '#888', fontSize: 14 },
-
   listContent: { paddingHorizontal: 20, paddingBottom: 40 },
   row: { justifyContent: 'space-between', marginBottom: 20 },
-
-  card: {
-    width: CARD_WIDTH,
-    height: CARD_WIDTH * 0.85,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  
-  dot: {
-      position: 'absolute',
-      top: 15,
-      right: 15,
-      width: 8,
-      height: 8,
-      borderRadius: 4,
-      opacity: 0.8
-  },
-
-  emoji: {
-    fontSize: 42,
-    marginBottom: 10,
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 10
-  },
-  genreText: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
-    letterSpacing: 0.5,
-    textAlign: 'center'
-  }
+  card: { width: CARD_WIDTH, height: CARD_WIDTH * 0.85, borderRadius: 24, alignItems: 'center', justifyContent: 'center', borderWidth: 1, position: 'relative', overflow: 'hidden' },
+  dot: { position: 'absolute', top: 15, right: 15, width: 8, height: 8, borderRadius: 4, opacity: 0.8 },
+  emoji: { fontSize: 42, marginBottom: 10, textShadowColor: 'rgba(0, 0, 0, 0.3)', textShadowOffset: { width: 0, height: 4 }, textShadowRadius: 10 },
+  genreText: { color: '#fff', fontSize: 16, fontWeight: 'bold', letterSpacing: 0.5, textAlign: 'center' }
 });
 
 export default GenreScreen;
